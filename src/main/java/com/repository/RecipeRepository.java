@@ -12,17 +12,16 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long>{
 
 
     @Query(value = "select * from Recipe where id = id", nativeQuery = true)
-    Recipe findByRecipeId(Long id);
+    Recipe findRecipeById(Long id);
 
-    @Override
     @Query(value = "select * from Recipe", nativeQuery = true)
-    List<Recipe> findAll();
+    List<Recipe> findAllRecipe();
 
-    @Query(value = "select * from Recipe where title like %#{keyword}% and intigrate like %#{keyword}% OR process like %#{keyword}%", nativeQuery = true)
-    List<Recipe> findByKeyword(String keyword);
+    @Query(value = "select * from Recipe where title like %#{keyword}% OR intigrate like %#{keyword}% OR process like %#{keyword}%", nativeQuery = true)
+    List<Recipe> findRecipeByKeyword(String keyword);
 
     @Query(value = "select * from Recipe where category = #{category}", nativeQuery = true)
-    List<Recipe> findByCategory(String category);
+    List<Recipe> findRecipeByCategory(String category);
 
     @Query(value = "select * from Recipe where owner = #{nickname}", nativeQuery = true)
     List<Recipe> findOwnerRecipe(String nickname);

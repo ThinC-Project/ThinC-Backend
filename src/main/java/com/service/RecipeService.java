@@ -3,7 +3,6 @@ package com.service;
 import com.domain.Recipe;
 import com.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,11 +19,11 @@ public class RecipeService {
     }
 
     public List<Recipe> findByKeyword(String keyword){
-        return recipeRepository.findByKeyword(keyword);
+        return recipeRepository.findRecipeByKeyword(keyword);
     }
 
     public List<Recipe> findByCategory(String category){
-        return recipeRepository.findByCategory(category);
+        return recipeRepository.findRecipeByCategory(category);
     }
 
     public List<Recipe> findOwnerRecipe(String owner){
@@ -36,7 +35,7 @@ public class RecipeService {
     }
 
     public Recipe loadRecipeByRecipeId(Long id){
-        Recipe recipe = recipeRepository.findByRecipeId(id);
+        Recipe recipe = recipeRepository.findRecipeById(id);
 
         return Recipe.builder()
                 .title(recipe.getTitle())
