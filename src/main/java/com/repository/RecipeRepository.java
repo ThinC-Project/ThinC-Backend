@@ -10,6 +10,10 @@ import java.util.List;
 @Repository
 public interface RecipeRepository extends JpaRepository<Recipe, Long>{
 
+
+    @Query(value = "select * from Recipe where id = id", nativeQuery = true)
+    Recipe findByRecipeId(Long id);
+
     @Override
     @Query(value = "select * from Recipe", nativeQuery = true)
     List<Recipe> findAll();
