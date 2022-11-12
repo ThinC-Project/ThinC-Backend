@@ -18,11 +18,15 @@ public class RecipeService {
         return recipeRepository.save(recipe);
     }
 
-    public List<Recipe> findByKeyword(String keyword){
+    public List<Recipe> findAllRecipe(){
+        return recipeRepository.findAllRecipe();
+    }
+
+    public List<Recipe> findRecipeByKeyword(String keyword){
         return recipeRepository.findRecipeByKeyword(keyword);
     }
 
-    public List<Recipe> findByCategory(String category){
+    public List<Recipe> findRecipeByCategory(String category){
         return recipeRepository.findRecipeByCategory(category);
     }
 
