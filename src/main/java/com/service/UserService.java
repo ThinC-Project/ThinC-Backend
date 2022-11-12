@@ -19,14 +19,14 @@ public class UserService{
     }
 
     private void validateDuplicateUser(User user) {
-        User findUser = userRepository.findById(user.getID());
+        User findUser = userRepository.findByUserID(user.getID());
         if(findUser!=null){
             throw new IllegalStateException("이미 가입된 아이디입니다.");
         }
     }
 
     public User loadUserByUserId(String ID){
-        User user = userRepository.findById(ID);
+        User user = userRepository.findByUserID(ID);
 
         return User.builder()
                 .ID(user.getID())
