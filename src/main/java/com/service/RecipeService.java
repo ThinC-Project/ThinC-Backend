@@ -22,6 +22,10 @@ public class RecipeService {
         return recipeRepository.findAllRecipe();
     }
 
+    public Recipe findRecipeById(Long id){
+        return recipeRepository.findRecipeById(id);
+    }
+
     public List<Recipe> findRecipeByKeyword(String keyword){
         return recipeRepository.findRecipeByKeyword(keyword);
     }
