@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-    @Query(value = "select * from Post where id = id", nativeQuery = true)
+    @Query(value = "select * from Post where id = #{id}", nativeQuery = true)
     Post findPostById(Long id);
 
     @Query(value = "select * from Post", nativeQuery = true)

@@ -66,7 +66,36 @@ public class PostController {
         }
         return "redirect:/write_post";
     }
-//    @GetMapping("/edit")
-//    @PostMapping("/edit")
-//    @DeleteMapping("/delete")
+    @GetMapping("/edit")
+    public String editPost(@RequestParam(value = "post_id", defaultValue = "0") Long post_id, Model model){
+        Post post = postRepository.findPostById(post_id);
+        model.addAttribute("post", post);
+
+        return  "post_edit";
+
+    }
+    @PostMapping("/edit")
+    public String editPost(@RequestParam(value = "Post") Post post, Model model){
+        postRepository.save(Post
+                .builder()
+                .title(post.getTitle())
+                .content(post.getContent())
+                .img_post(post.getImg_post())
+                .owner(post.getOwner())
+                .build()
+        );
+
+        return "redirect:/post?id="+post.getId();
+    }
+
+    @GetMapping("/delete")
+    public String deletePost(@RequestParam(value = "Post_id") Long Post_id, Model model) {
+        if(postRepository.findById(Post_id).isEmpty()) { // 값 존재여부 확인
+            model.addAttribute("message", "Post is not exist.");
+        } else {
+            postRepository.deleteById(Post_id);
+            model.addAttribute("message", "Post is deleted successful.");
+        }
+        return "redirect:/board";
+    }
 }
