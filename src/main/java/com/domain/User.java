@@ -19,7 +19,7 @@ public class User {
     private Long id;
 
     @Column(unique = true)
-    private String ID;
+    private String UserID;
 
     private String Password;
 
@@ -27,15 +27,15 @@ public class User {
     private String Nickname;
 
     @Builder
-    public User(String ID, String Password, String Nickname){
-        this.ID = ID;
+    public User(String UserID, String Password, String Nickname){
+        this.UserID = UserID;
         this.Password = Password;
         this.Nickname = Nickname;
     }
 
     public static User createUser(UserFormDto userFormDto){
         User user = User.builder()
-                .ID(userFormDto.getID())
+                .UserID(userFormDto.getID())
                 .Password(userFormDto.getPassword())
                 .Nickname(userFormDto.getNickname())
                 .build();

@@ -36,7 +36,7 @@ public class ConnectController {
         try{
             User user = User.createUser(userFormDto);
             User savedUser = userService.saveUser(user);
-            System.out.println("User ID : " + savedUser.getID());
+//            System.out.println("User ID : " + savedUser.getID());
         } catch(IllegalStateException e){
             model.addAttribute("errorMessage", e.getMessage());
             return "/join";
@@ -57,7 +57,7 @@ public class ConnectController {
             User User = userService.loadUserByUserId(UserId);
             if (User!=null && User.getPassword()==UserPw){
                 session.setAttribute("Nickname", User.getNickname());
-                session.setAttribute("UserID", User.getID());
+                session.setAttribute("UserID", User.getUserID());
                 System.out.println("login Success!");
                 return "redirect:/";
             }
