@@ -1,12 +1,9 @@
-package com.controller;
+package com.thincbackend.controller;
 
-import com.domain.Post;
-import com.domain.Recipe;
-import com.domain.User;
-import com.dto.PostFormDto;
-import com.dto.UserFormDto;
-import com.repository.PostRepository;
-import com.service.PostService;
+import com.thincbackend.domain.Post;
+import com.thincbackend.dto.PostFormDto;
+import com.thincbackend.repository.PostRepository;
+import com.thincbackend.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

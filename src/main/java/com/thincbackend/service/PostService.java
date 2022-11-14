@@ -1,7 +1,7 @@
-package com.service;
+package com.thincbackend.service;
 
-import com.domain.Post;
-import com.repository.PostRepository;
+import com.thincbackend.domain.Post;
+import com.thincbackend.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

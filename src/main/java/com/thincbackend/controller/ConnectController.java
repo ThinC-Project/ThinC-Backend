@@ -1,8 +1,8 @@
-package com.controller;
+package com.thincbackend.controller;
 
-import com.domain.User;
-import com.dto.UserFormDto;
-import com.service.UserService;
+import com.thincbackend.domain.User;
+import com.thincbackend.dto.UserFormDto;
+import com.thincbackend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

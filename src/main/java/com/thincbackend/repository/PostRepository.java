@@ -1,6 +1,6 @@
-package com.repository;
+package com.thincbackend.repository;
 
-import com.domain.Post;
+import com.thincbackend.domain.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

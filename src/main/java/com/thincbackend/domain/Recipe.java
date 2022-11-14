@@ -1,7 +1,6 @@
-package com.domain;
+package com.thincbackend.domain;
 
-import com.dto.RecipeFormDto;
-import com.dto.UserFormDto;
+import com.thincbackend.dto.RecipeFormDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

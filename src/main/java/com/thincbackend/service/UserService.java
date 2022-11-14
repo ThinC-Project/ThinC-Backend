@@ -1,7 +1,7 @@
-package com.service;
+package com.thincbackend.service;
 
-import com.domain.User;
-import com.repository.UserRepository;
+import com.thincbackend.domain.User;
+import com.thincbackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

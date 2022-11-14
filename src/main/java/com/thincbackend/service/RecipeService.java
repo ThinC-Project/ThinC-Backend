@@ -1,7 +1,7 @@
-package com.service;
+package com.thincbackend.service;
 
-import com.domain.Recipe;
-import com.repository.RecipeRepository;
+import com.thincbackend.domain.Recipe;
+import com.thincbackend.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

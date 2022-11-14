@@ -1,6 +1,6 @@
-package com.domain;
+package com.thincbackend.domain;
 
-import com.dto.PostFormDto;
+import com.thincbackend.dto.PostFormDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
