@@ -1,6 +1,6 @@
 package com.thincbackend.domain;
 
-import com.thincbackend.dto.UserFormDto;
+import com.thincbackend.dto.MemberFormDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,15 +11,14 @@ import javax.persistence.*;
 @Getter
 @Table(name = "users")
 @Entity
-public class User {
+public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "user_id")
     private Long id;
 
     @Column(unique = true)
-    private String UserID;
+    private String MemberID;
 
     private String Password;
 
@@ -27,17 +26,17 @@ public class User {
     private String Nickname;
 
     @Builder
-    public User(String UserID, String Password, String Nickname){
-        this.UserID = UserID;
+    public Member(String MemberID, String Password, String Nickname){
+        this.MemberID = MemberID;
         this.Password = Password;
         this.Nickname = Nickname;
     }
 
-    public static User createUser(UserFormDto userFormDto){
-        User user = User.builder()
-                .UserID(userFormDto.getID())
-                .Password(userFormDto.getPassword())
-                .Nickname(userFormDto.getNickname())
+    public static Member createMember(MemberFormDto memberFormDto){
+        Member user = Member.builder()
+                .MemberID(memberFormDto.getMemberID())
+                .Password(memberFormDto.getPassword())
+                .Nickname(memberFormDto.getNickname())
                 .build();
 
         return user;

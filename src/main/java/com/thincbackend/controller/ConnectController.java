@@ -1,8 +1,8 @@
 package com.thincbackend.controller;
 
-import com.thincbackend.domain.User;
-import com.thincbackend.dto.UserFormDto;
-import com.thincbackend.service.UserService;
+import com.thincbackend.domain.Member;
+import com.thincbackend.dto.MemberFormDto;
+import com.thincbackend.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,23 +20,23 @@ import javax.validation.Valid;
 @RequestMapping("/")
 public class ConnectController {
 
-    private final UserService userService;
+    private final MemberService memberService;
 
     @GetMapping("/join")
     public String joinForm(Model model){
-        model.addAttribute("userFormDto", new UserFormDto());
+        model.addAttribute("memberFormDto", new MemberFormDto());
 
         return "join";
     }
     @PostMapping("/join")
-    public String joinForm(@Valid UserFormDto userFormDto, BindingResult bindingResult, Model model){
+    public String joinForm(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model){
         if(bindingResult.hasErrors()){
             return "/join";
         }
         try{
-            User user = User.createUser(userFormDto);
-            User savedUser = userService.saveUser(user);
-//            System.out.println("User ID : " + savedUser.getID());
+            Member member = Member.createMember(memberFormDto);
+            Member savedMember = memberService.saveMember(member);
+            System.out.println("User ID : " + savedMember.getMemberID());
         } catch(IllegalStateException e){
             model.addAttribute("errorMessage", e.getMessage());
             return "/join";
@@ -51,13 +51,13 @@ public class ConnectController {
     @PostMapping("/login")
     public String loginForm(HttpSession session, HttpServletRequest httpServletRequest, Model model){
         try{
-            String UserId = httpServletRequest.getParameter("ID");
-            String UserPw = httpServletRequest.getParameter("PW");
+            String MemberID = httpServletRequest.getParameter("ID");
+            String MemberPW = httpServletRequest.getParameter("PW");
 
-            User User = userService.loadUserByUserId(UserId);
-            if (User!=null && User.getPassword()==UserPw){
-                session.setAttribute("Nickname", User.getNickname());
-                session.setAttribute("UserID", User.getUserID());
+            Member member = memberService.loadMemberByMemberId(MemberID);
+            if (member!=null && member.getPassword()==MemberPW){
+                session.setAttribute("Nickname", member.getNickname());
+                session.setAttribute("MemberID", member.getMemberID());
                 System.out.println("login Success!");
                 return "redirect:/";
             }
