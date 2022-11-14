@@ -12,21 +12,21 @@ import javax.validation.constraints.NotBlank;
 public class MemberFormDto {
 
     @NotBlank(message = "Please enter your ID!")
-    private String MemberID;
+    private String memberID;
 
     @NotBlank(message = "Please enter your password!")
     @Length(min=8, max=16, message = "Please enter the password in 8 to 16 characters!")
-    private String Password;
+    private String password;
 
     @NotBlank(message = "Please enter your Nickname!")
-    private String Nickname;
+    private String nickname;
 
 
     @Builder
     public MemberFormDto(String MemberID, String Password, String Nickname){
-        this.MemberID = MemberID;
-        this.Password = Password;
-        this.Nickname = Nickname;
+        this.memberID = MemberID;
+        this.password = Password;
+        this.nickname = Nickname;
     }
 
 }
