@@ -15,28 +15,30 @@ public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "member_id")
     private Long id;
 
-    @Column(unique = true)
-    private String MemberID;
+    @Column(unique = true, nullable = false)
+    private String memberID;
 
-    private String Password;
+    @Column(nullable = false)
+    private String password;
 
-    @Column(unique = true)
-    private String Nickname;
+    @Column(unique = true, nullable = false)
+    private String nickname;
 
     @Builder
-    public Member(String MemberID, String Password, String Nickname){
-        this.MemberID = MemberID;
-        this.Password = Password;
-        this.Nickname = Nickname;
+    public Member(String memberID, String password, String nickname){
+        this.memberID = memberID;
+        this.password = password;
+        this.nickname = nickname;
     }
 
     public static Member createMember(MemberFormDto memberFormDto){
         Member user = Member.builder()
-                .MemberID(memberFormDto.getMemberID())
-                .Password(memberFormDto.getPassword())
-                .Nickname(memberFormDto.getNickname())
+                .memberID(memberFormDto.getMemberID())
+                .password(memberFormDto.getPassword())
+                .nickname(memberFormDto.getNickname())
                 .build();
 
         return user;

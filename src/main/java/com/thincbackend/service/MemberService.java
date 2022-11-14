@@ -29,9 +29,9 @@ public class MemberService {
         Member member = memberRepository.findByMemberID(ID);
 
         return Member.builder()
-                .MemberID(member.getMemberID())
-                .Password(member.getPassword())
-                .Nickname(member.getNickname())
+                .memberID(member.getMemberID())
+                .password(member.getPassword())
+                .nickname(member.getNickname())
                 .build();
     }
 }
