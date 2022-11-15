@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpSession;
+
 @RequiredArgsConstructor
 @Transactional
 @Service
@@ -16,6 +18,11 @@ public class MemberService {
         validateDuplicateMember(member);
 
         return memberRepository.save(member);
+    }
+
+    public void createMemberSession(Member member, HttpSession session){
+        session.setAttribute("Nickname", member.getNickname());
+        session.setAttribute("MemberID", member.getMemberID());
     }
 
     private void validateDuplicateMember(Member member) {

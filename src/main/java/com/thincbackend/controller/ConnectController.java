@@ -36,7 +36,7 @@ public class ConnectController {
         try{
             Member member = Member.createMember(memberFormDto);
             Member savedMember = memberService.saveMember(member);
-            System.out.println("User ID : " + savedMember.getMemberID());
+            System.out.println("Member ID : " + savedMember.getMemberID());
         } catch(IllegalStateException e){
             model.addAttribute("errorMessage", e.getMessage());
             return "/join";
@@ -56,8 +56,9 @@ public class ConnectController {
 
             Member member = memberService.loadMemberByMemberId(MemberID);
             if (member!=null && member.getPassword()==MemberPW){
-                session.setAttribute("Nickname", member.getNickname());
-                session.setAttribute("MemberID", member.getMemberID());
+//                session.setAttribute("Nickname", member.getNickname());
+//                session.setAttribute("MemberID", member.getMemberID());
+                memberService.createMemberSession(member, session);
                 System.out.println("login Success!");
                 return "redirect:/";
             }
