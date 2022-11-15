@@ -22,7 +22,7 @@ public class PostController {
 
     @GetMapping({"/", ""})
     public String Post(Model model){
-        List<Post> postList = postRepository.findAllPost();
+        List<Post> postList = postRepository.findAll();
         model.addAttribute("postList", postList);
 
         return "post";

@@ -12,14 +12,15 @@ import java.util.List;
 @Transactional
 @Service
 public class PostService {
-    private PostRepository postRepository;
+
+    private final PostRepository postRepository;
 
     public Post savePost(Post post){
         return postRepository.save(post);
     }
 
     public List<Post> findAllPost(){
-        return postRepository.findAllPost();
+        return postRepository.findAll();
     }
 
     public Post findPostById(Long id){
