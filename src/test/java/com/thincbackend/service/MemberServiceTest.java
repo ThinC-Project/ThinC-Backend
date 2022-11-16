@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,4 +57,17 @@ class MemberServiceTest {
 
     }
 
+    @Test
+    @DisplayName("유저_세션_테스트")
+    public void createSessionTest(){
+        Member member1 = createMember();
+        Member savedMember = memberService.saveMember(member1);
+
+        MockHttpSession session = new MockHttpSession();
+        memberService.createMemberSession(savedMember, session);
+
+        System.out.println(session.getAttribute("Nickname"));
+        System.out.println(session.getAttribute("MemberID"));
+
+    }
 }
