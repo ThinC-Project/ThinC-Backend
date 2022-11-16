@@ -54,7 +54,7 @@ public class ConnectController {
             String MemberID = httpServletRequest.getParameter("ID");
             String MemberPW = httpServletRequest.getParameter("PW");
 
-            Member member = memberService.loadMemberByMemberId(MemberID);
+            Member member = memberService.findByMemberId(MemberID);
             if (member!=null && member.getPassword()==MemberPW){
 //                session.setAttribute("Nickname", member.getNickname());
 //                session.setAttribute("MemberID", member.getMemberID());

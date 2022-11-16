@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Controller
@@ -37,7 +38,7 @@ public class PostController {
     }
     @GetMapping("/post_detail")
     public String PostDetail(@RequestParam(value = "post_id", defaultValue = "0") Long post_id, Model model){
-        Post post = postRepository.findPostById(post_id);
+        Optional<Post> post = postRepository.findById(post_id);
         model.addAttribute("Post", post);
 
         return "postDetailPage";
@@ -65,7 +66,7 @@ public class PostController {
     }
     @GetMapping("/edit")
     public String editPost(@RequestParam(value = "post_id", defaultValue = "0") Long post_id, Model model){
-        Post post = postRepository.findPostById(post_id);
+        Optional<Post> post = postRepository.findById(post_id);
         model.addAttribute("post", post);
 
         return  "post_edit";

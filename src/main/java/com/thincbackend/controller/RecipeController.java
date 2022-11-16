@@ -1,7 +1,7 @@
 package com.thincbackend.controller;
 
 import com.thincbackend.domain.Recipe;
-import com.thincbackend.repository.RecipeRepository;
+import com.thincbackend.service.RecipeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,16 +10,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/recipe")
 public class RecipeController {
-    private final RecipeRepository recipeRepository;
+    private final RecipeService recipeService;
 
     @GetMapping("/")
     public String Recipe(Model model){
-        List<Recipe> recipeList = recipeRepository.findAllRecipe();
+        List<Recipe> recipeList = recipeService.findAllRecipe();
         model.addAttribute("recipeList", recipeList);
 
         return "recipe";
@@ -27,7 +28,7 @@ public class RecipeController {
 
     @GetMapping("/recipe_category_list")
     public String RecipeCategoryList(@RequestParam(value = "category", defaultValue = "") String category, Model model){
-        List<Recipe> recipeList = recipeRepository.findRecipeByCategory(category);
+        List<Recipe> recipeList = recipeService.findRecipeByCategory(category);
         model.addAttribute("recipeList", recipeList);
 
         return "recipe";
@@ -35,7 +36,7 @@ public class RecipeController {
 
     @GetMapping("/recipe_search_list")
     public String RecipeSearchList(@RequestParam(value = "keyword", defaultValue = "") String keyword, Model model){
-        List<Recipe> recipeList = recipeRepository.findRecipeByKeyword(keyword);
+        List<Recipe> recipeList = recipeService.findRecipeByKeyword(keyword);
         model.addAttribute("recipeList", recipeList);
 
         return "recipe";
@@ -43,7 +44,7 @@ public class RecipeController {
 
     @GetMapping("/recipe_detail")
     public String RecipeDetail(@RequestParam(value = "recipe_id", defaultValue = "0") Long recipe_id, Model model){
-        Recipe recipe = recipeRepository.findRecipeById(recipe_id);
+        Optional<Recipe> recipe = recipeService.findRecipeById(recipe_id);
         model.addAttribute("Recipe", recipe);
 
         return "recipeDetailPage";
