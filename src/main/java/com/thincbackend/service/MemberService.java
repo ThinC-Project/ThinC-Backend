@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Transactional
@@ -32,13 +33,17 @@ public class MemberService {
         }
     }
 
-    public Member loadMemberByMemberId(String ID){
-        Member member = memberRepository.findByMemberID(ID);
-
-        return Member.builder()
-                .memberID(member.getMemberID())
-                .password(member.getPassword())
-                .nickname(member.getNickname())
-                .build();
+    public Member findByMemberId(String MemberID){
+        return memberRepository.findByMemberID(MemberID);
     }
+
+//    public Member loadMemberByMemberId(String ID){
+//        Optional<Member> member = memberRepository.findByID(ID);
+//
+//        return Member.builder()
+//                .memberID(member.getMemberID())
+//                .password(member.getPassword())
+//                .nickname(member.getNickname())
+//                .build();
+//    }
 }

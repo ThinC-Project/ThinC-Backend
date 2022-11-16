@@ -7,51 +7,39 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Transactional
 @Service
 public class RecipeService {
-    private RecipeRepository recipeRepository;
+    private final RecipeRepository recipeRepository;
 
     public Recipe saveRecipe(Recipe recipe){
         return recipeRepository.save(recipe);
     }
 
     public List<Recipe> findAllRecipe(){
-        return recipeRepository.findAllRecipe();
+        return recipeRepository.findAll();
     }
 
-    public Recipe findRecipeById(Long id){
-        return recipeRepository.findRecipeById(id);
+    public Optional<Recipe> findRecipeById(Long id){
+        return recipeRepository.findById(id);
     }
 
     public List<Recipe> findRecipeByKeyword(String keyword){
-        return recipeRepository.findRecipeByKeyword(keyword);
+        return recipeRepository.findByKeyword(keyword);
     }
 
     public List<Recipe> findRecipeByCategory(String category){
-        return recipeRepository.findRecipeByCategory(category);
+        return recipeRepository.findByCategory(category);
     }
 
     public List<Recipe> findOwnerRecipe(String owner){
-        return recipeRepository.findOwnerRecipe(owner);
+        return recipeRepository.findByOwner(owner);
     }
 
     public List<Recipe> findOtherRecipe(String owner){
         return recipeRepository.findOtherRecipe(owner);
-    }
-
-    public Recipe loadRecipeByRecipeId(Long id){
-        Recipe recipe = recipeRepository.findRecipeById(id);
-
-        return Recipe.builder()
-                .title(recipe.getTitle())
-                .integrate(recipe.getIntegrate())
-                .process(recipe.getProcess())
-                .img_food(recipe.getImg_food())
-                .category(recipe.getCategory())
-                .owner(recipe.getOwner())
-                .build();
     }
 }

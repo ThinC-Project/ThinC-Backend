@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Transactional
@@ -23,11 +24,11 @@ public class PostService {
         return postRepository.findAll();
     }
 
-    public Post findPostById(Long id){
-        return postRepository.findPostById(id);
+    public Optional<Post> findById(Long id){
+        return postRepository.findById(id);
     }
 
-    public List<Post> findPostByKeyword(String keyword){
+    public List<Post> findByKeyword(String keyword){
         return postRepository.findPostByKeyword(keyword);
     }
 
@@ -35,14 +36,14 @@ public class PostService {
         return postRepository.findOwnerPost(owner);
     }
 
-    public Post loadPostByRecipeId(Long id){
-        Post post = postRepository.findPostById(id);
-
-        return Post.builder()
-                .title(post.getTitle())
-                .content(post.getContent())
-                .img_post(post.getImg_post())
-                .owner(post.getOwner())
-                .build();
-    }
+//    public Post loadPostByRecipeId(Long id){
+//        Optional<Post> post = postRepository.findById(id);
+//
+//        return Post.builder()
+//                .title(post.getTitle())
+//                .content(post.getContent())
+//                .img_post(post.getImg_post())
+//                .owner(post.getOwner())
+//                .build();
+//    }
 }
