@@ -15,7 +15,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Query(value = "select * from Post where title like %:keyword% OR content like %:keyword%", nativeQuery = true)
     List<Post> findPostByKeyword(@Param("keyword") String keyword);
 
-    @Query(value = "select * from Post where owner = :nickname", nativeQuery = true)
-    List<Post> findOwnerPost(String nickname);
+    List<Post> findByOwner(String nickname);
+
+    List<Post> findByOwnerNot(String nickname);
 
 }

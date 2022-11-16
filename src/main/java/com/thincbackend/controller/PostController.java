@@ -18,12 +18,11 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/board")
 public class PostController {
-    private static PostRepository postRepository;
-    private static PostService postService;
+    private final PostService postService;
 
     @GetMapping({"/", ""})
     public String Post(Model model){
-        List<Post> postList = postRepository.findAll();
+        List<Post> postList = postService.findAllPost();
         model.addAttribute("postList", postList);
 
         return "post";
@@ -31,14 +30,14 @@ public class PostController {
 
     @GetMapping("/post_search_list")
     public String PostSearchList(@RequestParam(value = "keyword", defaultValue = "") String keyword, Model model){
-        List<Post> postList = postRepository.findPostByKeyword(keyword);
+        List<Post> postList = postService.findPostByKeyword(keyword);
         model.addAttribute("postList", postList);
 
         return "post";
     }
     @GetMapping("/post_detail")
     public String PostDetail(@RequestParam(value = "post_id", defaultValue = "0") Long post_id, Model model){
-        Optional<Post> post = postRepository.findById(post_id);
+        Optional<Post> post = postService.findPostById(post_id);
         model.addAttribute("Post", post);
 
         return "postDetailPage";
@@ -66,7 +65,7 @@ public class PostController {
     }
     @GetMapping("/edit")
     public String editPost(@RequestParam(value = "post_id", defaultValue = "0") Long post_id, Model model){
-        Optional<Post> post = postRepository.findById(post_id);
+        Optional<Post> post = postService.findPostById(post_id);
         model.addAttribute("post", post);
 
         return  "post_edit";
@@ -74,7 +73,7 @@ public class PostController {
     }
     @PostMapping("/edit")
     public String editPost(@RequestParam(value = "Post") Post post, Model model){
-        postRepository.save(Post
+        postService.savePost(Post
                 .builder()
                 .title(post.getTitle())
                 .content(post.getContent())
@@ -88,10 +87,10 @@ public class PostController {
 
     @GetMapping("/delete")
     public String deletePost(@RequestParam(value = "Post_id") Long Post_id, Model model) {
-        if(postRepository.findById(Post_id).isEmpty()) { // 값 존재여부 확인
+        if(postService.findPostById(Post_id).isEmpty()) { // 값 존재여부 확인
             model.addAttribute("message", "Post is not exist.");
         } else {
-            postRepository.deleteById(Post_id);
+            postService.deletePostById(Post_id);
             model.addAttribute("message", "Post is deleted successful.");
         }
         return "redirect:/board";
