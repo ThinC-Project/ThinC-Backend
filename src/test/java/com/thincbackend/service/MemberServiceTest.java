@@ -66,8 +66,7 @@ class MemberServiceTest {
         MockHttpSession session = new MockHttpSession();
         memberService.createMemberSession(savedMember, session);
 
-        System.out.println(session.getAttribute("Nickname"));
-        System.out.println(session.getAttribute("MemberID"));
-
+        assertThat(session.getAttribute("Nickname")).isEqualTo("nickname");
+        assertThat(session.getAttribute("MemberID")).isEqualTo("test");
     }
 }
