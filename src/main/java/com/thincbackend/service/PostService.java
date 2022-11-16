@@ -25,7 +25,8 @@ public class PostService {
     }
 
     public Optional<Post> findPostById(Long id){
-        return postRepository.findById(id);
+        Optional<Post> findPost = checkPostExist(id);
+        return findPost;
     }
 
     public List<Post> findPostByKeyword(String keyword){
@@ -40,9 +41,30 @@ public class PostService {
         return postRepository.findByOwnerNot(owner);
     }
 
-    public void deletePostById(Long id){
+//    public Optional<Post> updatePost(Long id, Post post){
+//
+//    }
+
+    public void deletePostById(String owner, Long id){
+        checkPostOwner(owner, id);
+        checkPostExist(id);
         postRepository.deleteById(id);
     };
+
+    public Optional<Post> checkPostExist(Long id){
+        Optional<Post> findPost = postRepository.findById(id);
+        if(findPost.isEmpty()){
+            throw new IllegalStateException("게시글이 존재하지 않습니다.");
+        }
+        return findPost;
+    }
+
+    public void checkPostOwner(String owner, Long id){
+        Optional<Post> findPost = postRepository.findById(id);
+        if(findPost.get().getOwner()!=owner){
+            throw new IllegalStateException("권한이 없습니다.");
+        }
+    }
 //    public Post loadPostByRecipeId(Long id){
 //        Optional<Post> post = postRepository.findById(id);
 //
