@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -86,11 +87,11 @@ public class PostController {
     }
 
     @GetMapping("/delete")
-    public String deletePost(@RequestParam(value = "Post_id") Long Post_id, Model model) {
+    public String deletePost(@RequestParam(value = "Post_id") Long Post_id, HttpSession session, Model model) {
         if(postService.findPostById(Post_id).isEmpty()) { // 값 존재여부 확인
             model.addAttribute("message", "Post is not exist.");
         } else {
-            postService.deletePostById(Post_id);
+            postService.deletePostById(session.getAttribute("nickname").toString(), Post_id);
             model.addAttribute("message", "Post is deleted successful.");
         }
         return "redirect:/board";
