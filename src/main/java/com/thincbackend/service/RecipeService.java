@@ -28,7 +28,7 @@ public class RecipeService {
     }
 
     public List<Recipe> findRecipeByKeyword(String keyword){
-        return recipeRepository.findByKeyword(keyword);
+        return recipeRepository.findByTitleLikeOrIntegrateLikeOrProcessLike(keyword);
     }
 
     public List<Recipe> findRecipeByCategory(String category){
@@ -40,6 +40,6 @@ public class RecipeService {
     }
 
     public List<Recipe> findOtherRecipe(String owner){
-        return recipeRepository.findOtherRecipe(owner);
+        return recipeRepository.findByOwnerNot(owner);
     }
 }
