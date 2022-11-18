@@ -1,8 +1,6 @@
 package com.thincbackend.service;
 
-import com.thincbackend.domain.Post;
 import com.thincbackend.domain.Recipe;
-import com.thincbackend.dto.PostFormDto;
 import com.thincbackend.dto.RecipeFormDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -29,6 +27,7 @@ class RecipeServiceTest {
                 .title(title)
                 .category(category)
                 .integrate("apple, mango, egg")
+                .process("test")
                 .img_food("/drive/test/img.png")
                 .owner(owner)
                 .build();
@@ -122,7 +121,7 @@ class RecipeServiceTest {
     @DisplayName("레시피_수정_테스트")
     public void recipeUpdateTest(){
         Recipe recipe1 = createRecipe("recipe1", "owner1", "category1");
-        recipeService.saveRecipe(recipe1);
+        Recipe savedRecipe = recipeService.saveRecipe(recipe1);
         recipe1.setProcess("change Process");
         Optional<Recipe> findRecipe = recipeService.findRecipeById(recipe1.getId());
         assertThat(findRecipe.get().getTitle()).isEqualTo("recipe1");
