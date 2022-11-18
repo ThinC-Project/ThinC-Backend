@@ -4,11 +4,13 @@ import com.thincbackend.dto.RecipeFormDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @NoArgsConstructor
 @Getter
+@Setter
 @Table(name = "recipes")
 @Entity
 public class Recipe {
