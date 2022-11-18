@@ -30,7 +30,7 @@ public class PostService {
     }
 
     public List<Post> findPostByKeyword(String keyword){
-        return postRepository.findPostByKeyword(keyword);
+        return postRepository.findByTitleContainingOrContentContaining(keyword, keyword);
     }
 
     public List<Post> findOwnerPost(String owner){
