@@ -127,4 +127,34 @@ class PostServiceTest {
         assertThat(findPost.get().getTitle()).isEqualTo("post1");
         assertThat(findPost.get().getContent()).isEqualTo("change Content");
     }
+
+    @Test
+    @DisplayName("게시글_키워드_조회_테스트")
+    public void postFindByKeywordTest(){
+        Post post1 = createPost("test post test", "owner1");
+        Post post2 = createPost("test keyword test", "owner1");
+        Post post3 = Post.createPost(PostFormDto.builder()
+                .title("test test test")
+                .content("test test test keyword")
+                .img_post("/drive/test/img.png")
+                .owner("owner1")
+                .build());
+        Post post4 = Post.createPost(PostFormDto.builder()
+                .title("keyword")
+                .content("test test test keyword")
+                .img_post("/drive/test/img.png")
+                .owner("owner1")
+                .build());
+
+        postService.savePost(post1);
+        postService.savePost(post2);
+        postService.savePost(post3);
+        postService.savePost(post4);
+
+        List<Post> postListAll = postService.findAllPost();
+        List<Post> postListKeyword = postService.findPostByKeyword("keyword");
+
+        System.out.println(postListAll);
+        System.out.println(postListKeyword);
+    }
 }
