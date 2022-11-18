@@ -24,7 +24,8 @@ public class RecipeService {
     }
 
     public Optional<Recipe> findRecipeById(Long id){
-        return recipeRepository.findById(id);
+        Optional<Recipe> findRecipe = checkRecipeExist(id);
+        return findRecipe;
     }
 
     public List<Recipe> findRecipeByKeyword(String keyword){
