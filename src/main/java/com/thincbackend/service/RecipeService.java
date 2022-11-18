@@ -28,7 +28,7 @@ public class RecipeService {
     }
 
     public List<Recipe> findRecipeByKeyword(String keyword){
-        return recipeRepository.findByTitleLikeOrIntegrateLikeOrProcessLike(keyword);
+        return recipeRepository.findByTitleContainingOrIntegrateContainingOrProcessContaining(keyword, keyword, keyword);
     }
 
     public List<Recipe> findRecipeByCategory(String category){
@@ -41,5 +41,26 @@ public class RecipeService {
 
     public List<Recipe> findOtherRecipe(String owner){
         return recipeRepository.findByOwnerNot(owner);
+    }
+
+    public void deleteRecipeById(String owner, Long id){
+        checkRecipeOwner(owner, id);
+        checkRecipeExist(id);
+        recipeRepository.deleteById(id);
+    };
+
+    public Optional<Recipe> checkRecipeExist(Long id){
+        Optional<Recipe> findRecipe = recipeRepository.findById(id);
+        if(findRecipe.isEmpty()){
+            throw new IllegalStateException("레시피가 존재하지 않습니다.");
+        }
+        return findRecipe;
+    }
+
+    public void checkRecipeOwner(String owner, Long id){
+        Optional<Recipe> findRecipe = recipeRepository.findById(id);
+        if(findRecipe.get().getOwner()!=owner){
+            throw new IllegalStateException("권한이 없습니다.");
+        }
     }
 }

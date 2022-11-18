@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface RecipeRepository extends JpaRepository<Recipe, Long>{
 
-    List<Recipe> findByTitleLikeOrIntegrateLikeOrProcessLike(String keyword);
+    List<Recipe> findByTitleContainingOrIntegrateContainingOrProcessContaining(String title, String integrate, String process);
 
     List<Recipe> findByCategory(String category);
 
