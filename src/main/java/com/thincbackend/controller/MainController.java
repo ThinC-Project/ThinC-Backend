@@ -8,12 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping({"/", "/home", "/main"})
 public class MainController {
 
     @GetMapping("/")
     public String main(){
-        return "test";
+        return "hello";
     }
 
     @GetMapping("/recipe")
