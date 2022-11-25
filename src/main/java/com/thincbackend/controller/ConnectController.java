@@ -2,6 +2,7 @@ package com.thincbackend.controller;
 
 import com.thincbackend.domain.Member;
 import com.thincbackend.dto.MemberFormDto;
+import com.thincbackend.repository.MemberRepository;
 import com.thincbackend.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -20,10 +21,20 @@ import javax.validation.Valid;
 public class ConnectController {
 
     private final MemberService memberService;
+    private final MemberRepository memberRepository;
 
     @GetMapping("/join")
-    public String joinForm(@Valid MemberFormDto memberFormDto, HttpServletRequest request){
+    public String joinForm(HttpServletRequest request){
+        String id = request.getParameter("id");
+        String pw = request.getParameter("pw");
+        String nickname = request.getParameter("nick");
+
         try{
+            MemberFormDto memberFormDto = MemberFormDto.builder()
+                    .MemberID(id)
+                    .Password(pw)
+                    .Nickname(nickname)
+                    .build();
             Member member = Member.createMember(memberFormDto);
             Member savedMember = memberService.saveMember(member);
             System.out.println("Member ID : " + savedMember.getMemberID());
@@ -32,20 +43,15 @@ public class ConnectController {
             return "error";
         }
     }
-//    @PostMapping("/join")
-//    public String joinForm(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model){
-//        if(bindingResult.hasErrors()){
-//            return "/join";
+
+//    @GetMapping("/checknick")
+//    public String checkNick(HttpServletRequest request){
+//        String nickname = request.getParameter("nick");
+//        Member findMember = memberRepository.findByMemberID(nickname);
+//        if(findMember!=null){
+//            throw new IllegalStateException("존재하는 닉네임입니다.");
 //        }
-//        try{
-//            Member member = Member.createMember(memberFormDto);
-//            Member savedMember = memberService.saveMember(member);
-//            System.out.println("Member ID : " + savedMember.getMemberID());
-//        } catch(IllegalStateException e){
-//            model.addAttribute("errorMessage", e.getMessage());
-//            return "/join";
-//        }
-//        return "redirect:/login";
+//        return ""
 //    }
 
     @GetMapping("/login")
@@ -56,7 +62,9 @@ public class ConnectController {
             System.out.println(MemberID+" "+MemberPW);
 
             Member member = memberService.findByMemberId(MemberID);
-            if (member!=null && member.getPassword()==MemberPW){
+
+            System.out.println("member : "+member.getMemberID()+" member_pw : "+member.getPassword());
+            if (member!=null && member.getPassword().equals(MemberPW)){
 //                session.setAttribute("Nickname", member.getNickname());
 //                session.setAttribute("MemberID", member.getMemberID());
                 memberService.createMemberSession(member, session);
