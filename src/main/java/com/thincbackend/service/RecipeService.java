@@ -64,4 +64,8 @@ public class RecipeService {
             throw new IllegalStateException("권한이 없습니다.");
         }
     }
+
+    public List<Recipe> findRecipeByIntegrate(String integrate){
+        return recipeRepository.findRecipeByIntegrateContaining(integrate);
+    }
 }
