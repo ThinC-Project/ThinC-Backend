@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,5 +49,12 @@ public class RecipeController {
         model.addAttribute("Recipe", recipe);
 
         return "recipeDetailPage";
+    }
+
+    @GetMapping("/recipe_bookmark")
+    public String RecipeBookmark(HttpServletRequest request){
+        Long recipe_id = Long.parseLong(request.getParameter("recipe_id"));
+        System.out.println("recipe id : "+recipe_id);
+        return "test";
     }
 }
