@@ -1,6 +1,8 @@
 package com.thincbackend.controller;
 
+import com.thincbackend.domain.History;
 import com.thincbackend.domain.Recipe;
+import com.thincbackend.service.HistoryService;
 import com.thincbackend.service.RecipeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

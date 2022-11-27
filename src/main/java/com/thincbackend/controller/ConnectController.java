@@ -10,7 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -55,7 +57,8 @@ public class ConnectController {
 //    }
 
     @GetMapping("/login")
-    public String loginForm(HttpSession session, HttpServletRequest request){
+    public String loginForm(HttpServletRequest request, Model model, HttpSession session){
+
         try{
             String MemberPW = request.getParameter("pw");
             String MemberID = request.getParameter("id");
@@ -65,11 +68,12 @@ public class ConnectController {
 
             System.out.println("member : "+member.getMemberID()+" member_pw : "+member.getPassword());
             if (member!=null && member.getPassword().equals(MemberPW)){
-//                session.setAttribute("Nickname", member.getNickname());
-//                session.setAttribute("MemberID", member.getMemberID());
-                memberService.createMemberSession(member, session);
+                session.setAttribute("Nickname", member.getNickname());
+                System.out.println(session.getAttribute("Nickname"));
+                session.setAttribute("MemberID", member.getMemberID());
+
                 System.out.println("login Success!");
-                return "login success";
+                return member.getNickname();
             }else{
                 System.out.println("no member");
 
