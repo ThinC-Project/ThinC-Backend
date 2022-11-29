@@ -57,7 +57,7 @@ public class ConnectController {
 //    }
 
     @GetMapping("/login")
-    public String loginForm(HttpServletRequest request, Model model, HttpSession session){
+    public String loginForm(HttpServletRequest request, HttpServletResponse response){
 
         try{
             String MemberPW = request.getParameter("pw");
@@ -68,11 +68,13 @@ public class ConnectController {
 
             System.out.println("member : "+member.getMemberID()+" member_pw : "+member.getPassword());
             if (member!=null && member.getPassword().equals(MemberPW)){
-                session.setAttribute("Nickname", member.getNickname());
-                System.out.println(session.getAttribute("Nickname"));
-                session.setAttribute("MemberID", member.getMemberID());
+//                session.setAttribute("Nickname", member.getNickname());
+//                System.out.println(session.getAttribute("Nickname"));
+//                session.setAttribute("MemberID", member.getMemberID());
 
                 System.out.println("login Success!");
+                Cookie idCookie = new Cookie("nick", String.valueOf(member.getNickname()));
+                response.addCookie(idCookie);
                 return member.getNickname();
             }else{
                 System.out.println("no member");
