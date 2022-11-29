@@ -1,6 +1,7 @@
 package com.thincbackend.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.thincbackend.domain.Post;
 import com.thincbackend.dto.PostFormDto;
 import com.thincbackend.repository.PostRepository;
@@ -43,51 +44,40 @@ public class PostController {
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @GetMapping({"/", ""})
-    public String Post(Model model){
+    public String Post(){
         List<Post> postList = postService.findAllPost();
-        model.addAttribute("postList", postList);
 
-        return "post";
+        String json = new Gson().toJson(postList);
+
+        System.out.println(json);
+
+        return json;
     }
 
     @GetMapping("/post_search_list")
-    public String PostSearchList(@RequestParam(value = "keyword", defaultValue = "") String keyword, Model model){
-        List<Post> postList = postService.findPostByKeyword(keyword);
-        model.addAttribute("postList", postList);
+    public String PostSearchList(HttpServletRequest request){
+        String keyword = request.getParameter("keyword");
 
-        return "post";
+        List<Post> postList = postService.findPostByKeyword(keyword);
+
+        String json = new Gson().toJson(postList);
+        System.out.println(json);
+
+        return json;
     }
     @GetMapping("/post_detail")
-    public String PostDetail(@RequestParam(value = "post_id", defaultValue = "0") Long post_id, Model model){
-        Optional<Post> post = postService.findPostById(post_id);
-        model.addAttribute("Post", post);
+    public String PostDetail(HttpServletRequest request){
+        String post_id = request.getParameter("id");
 
-        return "postDetailPage";
+        Optional<Post> post = postService.findPostById(Long.parseLong(post_id));
+
+        String json = new Gson().toJson(post);
+
+        return json;
     }
-//    @GetMapping("/write_post")
-//    public String writePostForm(Model model){
-//        model.addAttribute("postFormDto", new PostFormDto());
-//
-//        return "write_post";
-//    }
-//    @PostMapping("/write_post")
-//    public String writePostForm(@Valid PostFormDto postFormDto, BindingResult bindingResult, Model model){
-//        if(bindingResult.hasErrors()){
-//            return "redirect:/write_post";
-//        }
-//        try{
-//            Post post = Post.createPost(postFormDto);
-//            Post savedPost = postService.savePost(post);
-//            System.out.println("Post ID : " + savedPost.getId());
-//        } catch(IllegalStateException e){
-//            model.addAttribute("errorMessage", e.getMessage());
-//            return "redirect:/board";
-//        }
-//        return "redirect:/write_post";
-//    }
 
     @PostMapping("/write-post")
-    public void writePost(HttpServletRequest request, HttpSession session) throws IOException {
+    public void writePost(HttpServletRequest request, @CookieValue(name="nick", required = false) String nick) throws IOException {
         try{
             String ldtTime = LocalDateTime.now().toString();
             String fileSave = "C:\\Users\\wol59\\Desktop\\ThinC-Backend\\src\\main\\java\\com\\thincbackend\\uploads"+ldtTime;
@@ -104,7 +94,9 @@ public class PostController {
             byte[] imageBytes = DatatypeConverter.parseBase64Binary(boardJson.getImage());
             try{
                 BufferedImage bufImg = ImageIO.read(new ByteArrayInputStream(imageBytes));
+                System.out.println(bufImg);
 
+//                bufImg.transferTo(new File(fullPath));
                 ImageIO.write(bufImg, "jpg", new File((fileSave)));
             }catch (Exception e){
                 e.printStackTrace();
@@ -114,7 +106,7 @@ public class PostController {
                     .title(boardJson.getTitle())
                     .content(boardJson.getContent())
                     .img_post(ldtTime)
-                    .owner("test")
+                    .owner(nick)
                     .build();
 
             Post post = Post.createPost(postFormDto);
@@ -129,19 +121,13 @@ public class PostController {
 
     }
 
-//    @GetMapping("/edit")
-//    public String editPost(@RequestParam(value = "post_id", defaultValue = "0") Long post_id, Model model){
-//        Optional<Post> post = postService.findPostById(post_id);
-//        model.addAttribute("post", post);
-//
-//        return  "post_edit";
-//
-//    }
     @PostMapping("/edit-post")
     public void editPost(HttpServletRequest request, HttpSession session) throws IOException{
+        Long postid = Long.parseLong(request.getParameter("id"));
+
         try{
             ServletInputStream inputStream = request.getInputStream();
-            System.out.println("write-post");
+            System.out.println("edit-post");
             String json = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
 
             BoardJson boardJson = objectMapper.readValue(json, BoardJson.class);
@@ -149,19 +135,14 @@ public class PostController {
             System.out.println(boardJson.getContent());
             System.out.println(boardJson.getImage());
 
-            System.out.println(session.getAttribute("Nickname"));
+//            System.out.println(session.getAttribute("Nickname"));
 
-            PostFormDto postFormDto = PostFormDto.builder()
-                    .title(boardJson.getTitle())
-                    .content(boardJson.getContent())
-                    .img_post(boardJson.getImage())
-                    .owner(session.getAttribute("Nickname").toString())
-                    .build();
+            Post findPost = postService.findPostById(postid).get();
+            findPost.setTitle(boardJson.getTitle());
+            findPost.setContent(boardJson.getContent());
+            postService.savePost(findPost);
 
-            Post post = Post.createPost(postFormDto);
-            Post savedPost = postService.savePost(post);
-
-            System.out.println(savedPost.getTitle()+" "+savedPost.getContent()+" "+savedPost.getImg_post()+" "+savedPost.getOwner());
+            System.out.println(findPost.getTitle()+" "+findPost.getContent()+" "+findPost.getImg_post()+" "+findPost.getOwner());
 
 
         } catch(IllegalStateException e){
@@ -170,15 +151,15 @@ public class PostController {
     }
 
     @GetMapping("/delete")
-    public String deletePost(@RequestParam(value = "Post_id") Long Post_id, HttpSession session, Model model) {
-        if(postService.findPostById(Post_id).isEmpty()) { // 값 존재여부 확인
-            model.addAttribute("message", "Post is not exist.");
-        } else {
-            postService.deletePostById(session.getAttribute("nickname").toString(), Post_id);
-            model.addAttribute("message", "Post is deleted successful.");
-        }
-        return "redirect:/board";
+    public String deletePost(HttpServletRequest request, HttpSession session, Model model) {
+        Long postId = Long.parseLong(request.getParameter("id"));
+
+        postService.deletePostById("test", postId);
+
+        return "delete post";
+
     }
+
 }
 
 @Getter
