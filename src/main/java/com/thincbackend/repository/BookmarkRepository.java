@@ -8,4 +8,6 @@ import java.util.List;
 public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
 
     List<Bookmark> findByOwner(String Owner);
+
+    void deleteBookmarkByRecipe_idAndOwner(Long recipeId, String owner);
 }

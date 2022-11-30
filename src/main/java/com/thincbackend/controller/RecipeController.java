@@ -1,11 +1,13 @@
 package com.thincbackend.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.thincbackend.domain.Bookmark;
 import com.thincbackend.domain.History;
 import com.thincbackend.domain.Post;
 import com.thincbackend.domain.Recipe;
 import com.thincbackend.dto.PostFormDto;
 import com.thincbackend.dto.RecipeFormDto;
+import com.thincbackend.service.BookmarkService;
 import com.thincbackend.service.HistoryService;
 import com.thincbackend.service.RecipeService;
 import lombok.Getter;
@@ -35,6 +37,8 @@ import java.util.Optional;
 @RequestMapping("/recipe")
 public class RecipeController {
     private final RecipeService recipeService;
+
+    private final BookmarkService bookmarkService;
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
@@ -151,13 +155,34 @@ public class RecipeController {
     }
 
     @GetMapping("/delete")
-    public String deleteRecipe(HttpServletRequest request, HttpSession session, Model model) {
+    public String deleteRecipe(HttpServletRequest request) {
         Long recipeId = Long.parseLong(request.getParameter("id"));
 
         recipeService.deleteRecipeById("test", recipeId);
 
         return "delete post";
+    }
 
+    @GetMapping("/create_bookmark")
+    public String createBookmark(HttpServletRequest request){
+        Long recipeId = Long.parseLong(request.getParameter("id"));
+
+        Bookmark bookmark = Bookmark.builder()
+                .recipe_id(recipeId)
+                .owner("test")
+                .build();
+        Bookmark savedBookmark = bookmarkService.saveBookmark(bookmark);
+
+        System.out.print(savedBookmark.toString());
+
+        return "bookmark saved";
+    }
+
+    @PostMapping("/delete_bookmark")
+    public void deleteBookmark(HttpServletRequest request){
+        Long recipeId = Long.parseLong(request.getParameter("id"));
+
+        bookmarkService.deleteBookmarkByRecipeIdAndOwner(recipeId, "test");
     }
 
     public String uploadImage(String img){

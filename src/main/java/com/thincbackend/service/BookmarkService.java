@@ -15,4 +15,8 @@ public class BookmarkService {
     public List<Bookmark> findBookmarkByOwner(String owner){
         return bookmarkRepository.findByOwner(owner);
     }
+
+    public void deleteBookmarkByRecipeIdAndOwner(Long recipeId, String owner){
+        bookmarkRepository.deleteBookmarkByRecipe_idAndOwner(recipeId, owner);
+    }
 }
