@@ -32,6 +32,10 @@ public class RecipeService {
         return recipeRepository.findByTitleContainingOrIntegrateContainingOrProcessContaining(keyword, keyword, keyword);
     }
 
+    public List<Recipe> findRecipeByProcess(String process){
+        return recipeRepository.findByProcessContaining(process);
+    }
+
     public List<Recipe> findRecipeByCategory(String category){
         return recipeRepository.findByCategory(category);
     }
