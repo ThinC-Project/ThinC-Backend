@@ -3,19 +3,14 @@ package com.thincbackend.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.thincbackend.domain.Bookmark;
-import com.thincbackend.domain.History;
-import com.thincbackend.domain.Post;
 import com.thincbackend.domain.Recipe;
-import com.thincbackend.dto.PostFormDto;
 import com.thincbackend.dto.RecipeFormDto;
 import com.thincbackend.service.BookmarkService;
-import com.thincbackend.service.HistoryService;
 import com.thincbackend.service.RecipeService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,7 +37,6 @@ public class RecipeController {
     private final BookmarkService bookmarkService;
 
     private ObjectMapper objectMapper = new ObjectMapper();
-
 
     //전체 레시피 리스트 불러오기
     @GetMapping({"/", ""})
@@ -161,8 +155,6 @@ public class RecipeController {
             System.out.println(recipeJson.getIntegrate());
             System.out.println(recipeJson.getImage());
             System.out.println(recipeJson.getCategory());
-
-//            System.out.println(session.getAttribute("Nickname"));
 
             String imgSave = uploadImage(recipeJson.getImage());
 
