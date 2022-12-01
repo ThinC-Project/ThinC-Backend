@@ -1,5 +1,6 @@
 package com.thincbackend.service;
 
+import com.google.gson.Gson;
 import com.thincbackend.domain.Post;
 
 import com.thincbackend.dto.PostFormDto;
@@ -57,7 +58,9 @@ class PostServiceTest {
         postService.savePost(post3);
 
         List<Post> postList = postService.findAllPost();
-        System.out.println(postList);
+
+        String json = new Gson().toJson(postList);
+        System.out.println("postList : "+json);
     }
 
     @Test
@@ -75,7 +78,6 @@ class PostServiceTest {
         List<Post> ownerPostList = postService.findOwnerPost("owner1");
         List<Post> otherPostList = postService.findOtherPost("owner1");
 
-        System.out.println(postList);
         System.out.println(ownerPostList);
         System.out.println(otherPostList);
     }

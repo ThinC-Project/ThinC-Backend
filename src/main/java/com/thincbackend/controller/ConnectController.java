@@ -2,73 +2,87 @@ package com.thincbackend.controller;
 
 import com.thincbackend.domain.Member;
 import com.thincbackend.dto.MemberFormDto;
+import com.thincbackend.repository.MemberRepository;
 import com.thincbackend.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @Controller
+@RestController
 @RequestMapping("/")
 public class ConnectController {
 
     private final MemberService memberService;
+    private final MemberRepository memberRepository;
 
     @GetMapping("/join")
-    public String joinForm(Model model){
-        model.addAttribute("memberFormDto", new MemberFormDto());
+    public String joinForm(HttpServletRequest request){
+        String id = request.getParameter("id");
+        String pw = request.getParameter("pw");
+        String nickname = request.getParameter("nick");
 
-        return "join";
-    }
-    @PostMapping("/join")
-    public String joinForm(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model){
-        if(bindingResult.hasErrors()){
-            return "/join";
-        }
         try{
+            MemberFormDto memberFormDto = MemberFormDto.builder()
+                    .MemberID(id)
+                    .Password(pw)
+                    .Nickname(nickname)
+                    .build();
             Member member = Member.createMember(memberFormDto);
             Member savedMember = memberService.saveMember(member);
             System.out.println("Member ID : " + savedMember.getMemberID());
+            return "join success";
         } catch(IllegalStateException e){
-            model.addAttribute("errorMessage", e.getMessage());
-            return "/join";
+            return "error";
         }
-        return "redirect:/login";
     }
+
+//    @GetMapping("/checknick")
+//    public String checkNick(HttpServletRequest request){
+//        String nickname = request.getParameter("nick");
+//        Member findMember = memberRepository.findByMemberID(nickname);
+//        if(findMember!=null){
+//            throw new IllegalStateException("존재하는 닉네임입니다.");
+//        }
+//        return ""
+//    }
 
     @GetMapping("/login")
-    public String loginForm(){
-        return "/login";
-    }
-    @PostMapping("/login")
-    public String loginForm(HttpSession session, HttpServletRequest httpServletRequest, Model model){
+    public String loginForm(HttpServletRequest request, HttpServletResponse response){
+
         try{
-            String MemberID = httpServletRequest.getParameter("ID");
-            String MemberPW = httpServletRequest.getParameter("PW");
+            String MemberPW = request.getParameter("pw");
+            String MemberID = request.getParameter("id");
+            System.out.println(MemberID+" "+MemberPW);
 
             Member member = memberService.findByMemberId(MemberID);
-            if (member!=null && member.getPassword()==MemberPW){
+
+            System.out.println("member : "+member.getMemberID()+" member_pw : "+member.getPassword());
+            if (member!=null && member.getPassword().equals(MemberPW)){
 //                session.setAttribute("Nickname", member.getNickname());
+//                System.out.println(session.getAttribute("Nickname"));
 //                session.setAttribute("MemberID", member.getMemberID());
-                memberService.createMemberSession(member, session);
+
                 System.out.println("login Success!");
-                return "redirect:/";
+                Cookie idCookie = new Cookie("nick", String.valueOf(member.getNickname()));
+                response.addCookie(idCookie);
+                return member.getNickname();
+            }else{
+                System.out.println("no member");
+
+                return "no member";
             }
         } catch(IllegalStateException e){
-            model.addAttribute("errorMessage", e.getMessage());
-            return "/login";
+            return "error";
         }
-
-        return "/login";
     }
-
-
 }

@@ -24,6 +24,7 @@ public class Recipe {
 
     private String integrate;
 
+    @Column(length = 10000)
     private String process;
 
     private String img_food;

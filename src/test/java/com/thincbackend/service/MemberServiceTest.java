@@ -58,6 +58,16 @@ class MemberServiceTest {
     }
 
     @Test
+    @DisplayName("유저_검색_테스트")
+    public void findUserTest(){
+        Member member1 = createMember();
+        Member savedMember = memberService.saveMember(member1);
+
+        Member member = memberService.findByMemberId(member1.getMemberID());
+        System.out.println(member.getMemberID());
+    }
+
+    @Test
     @DisplayName("유저_세션_테스트")
     public void createSessionTest(){
         Member member1 = createMember();
