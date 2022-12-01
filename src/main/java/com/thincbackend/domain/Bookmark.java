@@ -22,11 +22,11 @@ public class Bookmark {
 
     private String owner;
 
-    private Long recipe_id;
+    private Long recipeId;
 
     @Builder
-    public Bookmark(String owner, Long recipe_id){
+    public Bookmark(String owner, Long recipeId){
         this.owner = owner;
-        this.recipe_id = recipe_id;
+        this.recipeId = recipeId;
     }
 }

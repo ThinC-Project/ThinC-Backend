@@ -12,7 +12,7 @@ import java.util.List;
 @Transactional
 @Service
 public class BookmarkService {
-    private BookmarkRepository bookmarkRepository;
+    private final BookmarkRepository bookmarkRepository;
 
     public Bookmark saveBookmark(Bookmark bookmark){
         return bookmarkRepository.save(bookmark);
@@ -23,6 +23,6 @@ public class BookmarkService {
     }
 
     public void deleteBookmarkByRecipeIdAndOwner(Long recipeId, String owner){
-        bookmarkRepository.deleteBookmarkByRecipe_idAndOwner(recipeId, owner);
+        bookmarkRepository.deleteBookmarkByRecipeIdAndOwner(recipeId, owner);
     }
 }

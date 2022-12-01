@@ -19,12 +19,11 @@ public class HistoryController{
 
     private final HistoryService historyService;
 
-    @GetMapping("/")
+    @GetMapping("/add")
     public String historyForm(HttpServletRequest request){
         String title = request.getParameter("title");
         String owner = request.getParameter("owner");
         String date = request.getParameter("date");
-
 
         History history = History.builder()
                 .recipeTitle(title)
@@ -33,6 +32,6 @@ public class HistoryController{
                 .build();
         History savedHistory = historyService.saveHistory(history);
 
-        return "Test";
+        return "add complete";
     }
 }

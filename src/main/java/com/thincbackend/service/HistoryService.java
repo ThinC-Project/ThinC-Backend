@@ -21,4 +21,8 @@ public class HistoryService {
     public List<History> findHistoryByDate(String Date){
         return historyRepository.findByDate(Date);
     }
+
+    public List<History> findAllHistory(){
+        return historyRepository.findAll();
+    }
 }

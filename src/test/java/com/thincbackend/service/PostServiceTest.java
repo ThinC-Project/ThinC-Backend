@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @Transactional
-@TestPropertySource(properties = {"spring.config.location=classpath:application.yml"})
+@TestPropertySource(properties = {"spring.config.location=classpath:application.properties"})
 class PostServiceTest {
 
     @Autowired
