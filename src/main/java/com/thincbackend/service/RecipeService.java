@@ -68,4 +68,12 @@ public class RecipeService {
     public List<Recipe> findRecipeByIntegrate(String integrate){
         return recipeRepository.findRecipeByIntegrateContaining(integrate);
     }
+
+    public List<Recipe> findRecipeByProcess(String process){
+        return recipeRepository.findByProcessContaining(process);
+    }
+
+    public Optional<Recipe> findByTitleContaining(String title){
+        return recipeRepository.findByTitleContaining(title);
+    }
 }
