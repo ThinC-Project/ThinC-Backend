@@ -4,19 +4,22 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.thincbackend.domain.Recipe;
 import com.thincbackend.service.RecipeService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @RestController
+@RequiredArgsConstructor
 public class AnswerInduction {
-    private RecipeService recipeService;
+    private final RecipeService recipeService;
     @PostMapping(value="/ans.induction")
     public String answerCook(@RequestBody Map<String,Object> request){
         Result result = new Result();

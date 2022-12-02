@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.thincbackend.domain.History;
 import com.thincbackend.service.HistoryService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,8 +14,9 @@ import java.time.LocalDate;
 import java.util.*;
 
 @RestController
+@RequiredArgsConstructor
 public class AnswerHistory {
-    HistoryService historyService;
+    private final HistoryService historyService;
     @PostMapping(value="/ans.history")
     public String answerHistory(@RequestBody Map<String,Object> request){
 

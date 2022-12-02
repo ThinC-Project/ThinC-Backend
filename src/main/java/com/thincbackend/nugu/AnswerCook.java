@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.thincbackend.domain.Recipe;
 import com.thincbackend.service.RecipeService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,8 +15,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @RestController
+@RequiredArgsConstructor
 public class AnswerCook {
-    private RecipeService recipeService;
+    private final RecipeService recipeService;
     @PostMapping(value="/ans.cook")
     public String answerCook(@RequestBody Map<String,Object> request){
         Result result = new Result();
@@ -26,9 +28,13 @@ public class AnswerCook {
         Map<String,String> food = (Map<String,String>)parameters.get("foodName");
         String foodName = food.get("value");
 
+        //테스트용도
+        System.out.println(foodName);
+
         // db에서 가져오기
         Optional<Recipe> recipeOfFood = recipeService.findByTitleContaining(foodName);
         String process = recipeOfFood.get().getProcess();
+        System.out.println(process); // test
         String cookType = getCookType(process);
         String times = getTimes(process);
 
