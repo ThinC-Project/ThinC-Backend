@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
-@TestPropertySource(properties = {"spring.config.location=classpath:application.properties"})
+@TestPropertySource(properties = {"spring.config.location=classpath:application.yml"})
 class AnswerCookTest {
 
     @Autowired
@@ -37,8 +37,8 @@ class AnswerCookTest {
     @Test
     @DisplayName("test")
     public void findbyTitle(){
-        Recipe recipe = createRecipe("닭", "owner", "cate");
-        Recipe savedRecipe = recipeService.saveRecipe(recipe);
+//        Recipe recipe = createRecipe("닭", "owner", "cate");
+//        Recipe savedRecipe = recipeService.saveRecipe(recipe);
 
         Optional<Recipe> findRecipe = recipeService.findByTitleContaining("닭");
 

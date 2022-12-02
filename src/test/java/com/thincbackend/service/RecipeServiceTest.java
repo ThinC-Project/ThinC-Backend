@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
-@TestPropertySource(properties = {"spring.config.location=classpath:application.properties"})
+@TestPropertySource(properties = {"spring.config.location=classpath:application.yml"})
 class RecipeServiceTest {
     @Autowired
     private RecipeService recipeService;

@@ -1,0 +1,19 @@
+spring:
+    datasource:
+        #    url: jdbc:mysql://thincbackend.cxshbgoxbnwp.ap-northeast-2.rds.amazonaws.com/thincdb?serverTimeZone=Asia/Seoul
+        #    username: admin
+        url: jdbc:mysql://my-rds-instance.cpkmcudqjsud.ap-northeast-2.rds.amazonaws.com:3306/thinc
+        username: soseungsoo
+        password: maple9073!
+        driver-class-name: com.mysql.cj.jdbc.Driver
+
+    jpa:
+        database: mysql
+        database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+
+        hibernate:
+            ddl-auto: update
+        show-sql: true
+        properties:
+            hibernate:
+                format_sql: true
